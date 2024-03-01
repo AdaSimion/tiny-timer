@@ -8,9 +8,9 @@ You will need Node installed on your computer.
 
 Then, scan the QR code in your terminal with Expo Go app (on Android) or directly on the default camera app (on iOS).
 
-![timer initial](https://github.com/AdaSimion/tiny-timer/blob/main/assets/screenshot.png)
+<img src="https://github.com/AdaSimion/tiny-timer/blob/main/assets/screenshot.png" alt="initial timer" width="300"/>
 
-![timer running](https://github.com/AdaSimion/tiny-timer/blob/main/assets/screenshot1.png)
+<img src="https://github.com/AdaSimion/tiny-timer/blob/main/assets/screenshot1.png" alt="running timer" width="300"/>
 
 <h3>How to run the tests</h3>
 
