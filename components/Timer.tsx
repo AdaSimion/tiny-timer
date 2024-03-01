@@ -1,18 +1,25 @@
+import Ionicons from '@expo/vector-icons/Ionicons';
 import React, {
+  Dispatch,
   FunctionComponent,
+  SetStateAction,
   useCallback,
   useEffect,
   useRef,
   useState
 } from 'react';
-import { Text, StyleSheet, View } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 import formatTime from '../utils/formatTime';
 
 type TimerInterface = {
   isRunning: boolean;
+  setIsRunning: Dispatch<SetStateAction<boolean>>;
 };
 
-const Timer: FunctionComponent<TimerInterface> = ({ isRunning = false }) => {
+const Timer: FunctionComponent<TimerInterface> = ({
+  isRunning = false,
+  setIsRunning
+}) => {
   const [timerProgress, setTimerProgress] = useState<number>(0);
 
   const lastRecordedTimestamp = useRef<number>(new Date().getTime());
@@ -32,13 +39,16 @@ const Timer: FunctionComponent<TimerInterface> = ({ isRunning = false }) => {
     );
   }, [setTimerProgress, lastRecordedTimestamp, timerAnimationRef]);
 
+  const clearTimerAnimation = useCallback(() => {
+    if (timerAnimationRef.current !== null) {
+      cancelAnimationFrame(timerAnimationRef.current);
+      timerAnimationRef.current = null;
+    }
+  }, [timerAnimationRef.current]);
+
   useEffect(() => {
     if (!isRunning) {
-      if (timerAnimationRef.current !== null) {
-        cancelAnimationFrame(timerAnimationRef.current);
-        timerAnimationRef.current = null;
-      }
-
+      clearTimerAnimation();
       return;
     }
 
@@ -47,20 +57,33 @@ const Timer: FunctionComponent<TimerInterface> = ({ isRunning = false }) => {
     );
   }, [isRunning]);
 
+  const resetTimerProgress = useCallback(() => {
+    clearTimerAnimation();
+    setTimerProgress(0);
+    setIsRunning(false);
+  }, [setIsRunning, setTimerProgress]);
+
   return (
     <View style={styles.container}>
       <Text style={styles.timerText}>{formatTime(timerProgress)}</Text>
+      {timerProgress > 0 ? (
+        <TouchableOpacity onPress={resetTimerProgress}>
+          <Ionicons name="play-back" size={45} color="#a19f9c" />
+        </TouchableOpacity>
+      ) : null}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingBottom: 24
+    minHeight: 130,
+    alignItems: 'flex-end'
   },
   timerText: {
-    fontSize: 25,
-    fontWeight: '500'
+    fontSize: 45,
+    fontWeight: '600',
+    marginBottom: 16
   }
 });
 

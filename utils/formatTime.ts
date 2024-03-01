@@ -14,9 +14,9 @@ const formatTime: (secondsToFormat: number) => string = function (
   const minutes = Math.floor((secondsToFormat % 3600) / 60);
   const seconds = secondsToFormat % 60;
 
-  return `${ensureTwoDigitFormat(hours)}:${ensureTwoDigitFormat(
-    minutes
-  )}:${ensureTwoDigitFormat(seconds)}`;
+  return `${
+    hours <= 99 ? ensureTwoDigitFormat(hours) : hours
+  }:${ensureTwoDigitFormat(minutes)}:${ensureTwoDigitFormat(seconds)}`;
 };
 
 export default formatTime;

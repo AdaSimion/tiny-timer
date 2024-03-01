@@ -15,11 +15,11 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <Timer isRunning={isTimerRunning} />
-      <TouchableOpacity onPress={toggleStartPause}>
+      <Timer isRunning={isTimerRunning} setIsRunning={setIsTimerRunning} />
+      <TouchableOpacity onPress={toggleStartPause} style={styles.startButton}>
         <Ionicons
           name={isTimerRunning ? 'pause-circle' : 'play-circle'}
-          size={80}
+          size={120}
           color="#e8c410"
         />
       </TouchableOpacity>
@@ -32,6 +32,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'flex-end',
+    paddingBottom: 160
+  },
+  startButton: {
+    marginTop: 64
   }
 });
